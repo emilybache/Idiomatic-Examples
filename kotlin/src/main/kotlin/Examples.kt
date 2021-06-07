@@ -7,22 +7,14 @@ class Examples {
     }
 
     fun example2(from: Int): String {
-        val countDown = StringBuilder()
-        val n = (from downTo 0)
-        for (i: Int in n) {
-            countDown.append(i)
-            countDown.append("\n")
+        return buildString  {
+            for (i in from downTo 0) append("$i\n")
         }
-        return countDown.toString()
     }
 
     fun example3(domain: String): String {
         val emailsList = listOf("joe@example.com", "nancy@example.com", "coach@sammancoaching.org")
-        val result = ArrayList<String>()
-        for (e: String in emailsList) {
-            if (e.contains(domain)) result.add(e)
-        }
-        return result.stream().collect(Collectors.joining(", "))
+        return emailsList.filter { domain in it }.joinToString()
     }
 
     fun example4(colour: String): String {
