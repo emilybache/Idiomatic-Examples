@@ -1,0 +1,38 @@
+
+- extract function - 'amountFor(aPerformance)'
+- within the new function, improve variable names
+    - rename return value to 'result'
+    - rename 'perf' to 'aPerformance'
+
+- change signature - introduce 'plays' as constructor argument
+- change signature - remove 'plays' as argument to print function
+- extract function - playFor(performance)
+- inline variable - replce all references to 'play' with 'playFor(performance)'
+- change signature
+    - remove play from parameter list of 'amountFor'
+- inline variable - replace temp variable 'amount' with call to 'amountFor'
+
+- introduce shadowing variable 'volumeCredits' then rename and add accumulator call
+- extract function - volumeCreditsFor(performance)
+    - rename variables in extracted function to 'result'
+    - inline call to ge rid of tmpCredits
+
+- extract function - format(aNumber)
+- replace temp with query - variable format with calls to format()
+- change function declaration - rename 'format' to 'usd'
+
+- split loop - volumeCredits is updated in own copy of loop
+- slide statement - move declaration of volumeCredits next to loop
+- extract function - totalVolumeCredits()
+- clean up function to use map and sum
+- inline variable - volumeCredits replaced with call to totalVolumeCredits
+
+- split loop - totalAmount in own loop
+- slide statement - totalAmount next to loop
+- extract function - totalAmountXX
+- clean up function body to use map and sum
+- inline function
+- rename function to totalAmount
+
+- extract function - renderPlainText - whole function body
+
