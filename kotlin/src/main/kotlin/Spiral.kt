@@ -29,7 +29,8 @@ class Spiral(val size: Int) : Grid {
     }
 
     private fun spiralize(arr: Array<IntArray>): Array<IntArray> {
-        val fill = fill(arr)
+        fill(arr)
+        var fill = arr
         val height = fill.size
         val width: Int = fill[0].size
         var lastY = height / 2

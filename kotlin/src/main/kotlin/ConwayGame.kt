@@ -1,74 +1,61 @@
 class ConwayGame(val width : Int, val height : Int) {
 
     private val size = width * height
-    var data: ByteArray = ByteArray(size)
+    private var data: ByteArray = ByteArray(size)
+    val dead : Byte = 0
+    val alive : Byte = 1
 
-    /**
-     *
-     * Iterates the game one step forward
-     *
-     */
     fun iterate() {
-        val prev = ByteArray(size)
-        System.arraycopy(data, 0, prev, 0, size)
         val next = ByteArray(size)
         for (i in 0 until width) {
             for (j in 0 until height) {
-                val type = isAlive(i, j, prev)
-                setAliveAt(type, next, j, i)
+                val currentlyAlive = isAliveAt(i, j)
+                val neighbours = neighbourCount(i, j)
+                setAliveAt(nextState(currentlyAlive, neighbours), next, j, i)
             }
         }
-        System.arraycopy(next, 0, data, 0, size)
+        data = next
+    }
+
+    private fun nextState(currently_alive: Boolean, neighbour_count: Int): Byte {
+        return if (currently_alive) {
+            when (neighbour_count) {
+                3 -> alive
+                2 -> alive
+                else -> dead
+            }
+        } else {
+            when (neighbour_count) {
+                3 -> alive
+                else -> dead
+            }
+        }
+    }
+
+    private fun isAliveAt(i: Int, j: Int): Boolean {
+        val pos = j * width + i
+        return pos >= 0 && pos < size - 1 && (data[pos] == alive)
     }
 
     fun setAliveAt(i: Int, j: Int) {
         setAliveAt(1, data, j, i)
     }
 
-    private fun setAliveAt(type: Int, next: ByteArray, j: Int, i: Int) {
-        if (type > 0) {
-            setAliveAt(next, j, i)
-        } else {
-            setDeadAt(next, j, i)
-        }
+    private fun setAliveAt(nextState: Byte, next: ByteArray, j: Int, i: Int) {
+        next[j * width + i] = nextState
     }
 
-    private fun setDeadAt(next: ByteArray, j: Int, i: Int) {
-        next[j * width + i] = 0
-    }
+    data class Coord(val i: Int, val j: Int) {}
 
-    private fun setAliveAt(next: ByteArray, j: Int, i: Int) {
-        next[j * width + i] = 1
-    }
-
-    protected fun isAlive(x: Int, y: Int, d: ByteArray): Int {
-        var count = 0
-        val pos1 = y * width + x
-        for (i in x - 1..x + 1) {
-            for (j in y - 1..y + 1) {
-                val pos = j * width + i
-                if (pos >= 0 && pos < size - 1 && pos != pos1) {
-                    val b : Byte = 1
-                    if (d[pos] == b) {
-                        count++
-                    }
-                }
+    private fun neighbourCount(x: Int, y: Int): Int {
+        val neighbourCoords : List<Coord> =
+            listOf(x-1, x, x+1).map { i ->
+                listOf(y-1, y, y+1).map { j ->
+                Coord(i, j)
             }
-        }
+        }.flatten().filter{!(it.i == x && it.j == y)}
 
-        //dead
-        val b : Byte = 0
-        if (d[pos1] == b) {
-            if (count == 3) { //becomes alive.
-               return 1
-            } else return 0
-            //still dead
-        } else { //live
-            if (count < 2 || count > 3) { //Dies
-               return 0
-            } else return 1
-            //lives
-        }
+        return neighbourCoords.filter { isAliveAt(it.i, it.j) }.size
     }
 
     fun data(): Grid {
@@ -88,27 +75,11 @@ class PrintableData(val width: Int, val height: Int, val data: ByteArray) : Grid
     override fun contentAt(x: Int, y: Int): String {
         val pos = y * width + x
         val b : Byte = 1
-        if (data[pos] == b) {
-            return "*"
+        return if (data[pos] == b) {
+            "*"
         } else {
-            return "."
+            "."
         }
-    }
-
-}
-
-class PrintableCells(val cells: Array<IntArray>) : Grid {
-    override fun width(): Int {
-        return cells[0].size
-    }
-
-    override fun height(): Int {
-        return cells.size
-
-    }
-
-    override fun contentAt(x: Int, y: Int): String {
-        return if (cells[y][x] == 1) "*" else "."
     }
 
 }
