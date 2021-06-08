@@ -2,13 +2,15 @@ class ConwayGame(val width : Int, val height : Int) {
 
     private val size = width * height
     private var data: ByteArray = ByteArray(size)
-    val dead : Byte = 0
-    val alive : Byte = 1
+    companion object {
+        val dead : Byte = 0
+        val alive : Byte = 1
+    }
 
     fun iterate() {
         val next = ByteArray(size)
-        for (i in 0 until width) {
-            for (j in 0 until height) {
+        (0 until width).forEach { i ->
+            (0 until height).forEach { j ->
                 val currentlyAlive = isAliveAt(i, j)
                 val neighbours = neighbourCount(i, j)
                 setAliveAt(nextState(currentlyAlive, neighbours), next, j, i)
@@ -76,8 +78,7 @@ class PrintableData(val width: Int, val height: Int, val data: ByteArray) : Grid
 
     override fun contentAt(x: Int, y: Int): String {
         val pos = y * width + x
-        val b : Byte = 1
-        return if (data[pos] == b) {
+        return if (data[pos] == ConwayGame.alive) {
             "*"
         } else {
             "."
