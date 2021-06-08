@@ -42,7 +42,9 @@ class ConwayGame(val width : Int, val height : Int) {
     }
 
     private fun setAliveAt(nextState: Byte, next: ByteArray, j: Int, i: Int) {
-        next[j * width + i] = nextState
+        val pos = j * width + i
+        if (pos >= 0 && pos < size - 1)
+            next[pos] = nextState
     }
 
     data class Coord(val i: Int, val j: Int) {}
