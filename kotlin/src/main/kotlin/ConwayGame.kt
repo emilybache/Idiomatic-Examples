@@ -34,11 +34,16 @@ class ConwayGame(val width : Int, val height : Int) {
     }
 
     private fun setDeadAt(next: ByteArray, j: Int, i: Int) {
-        next[j * width + i] = 0
+        val pos = j * width + i
+        if (pos >= 0 && pos < size - 1) {
+            next[pos] = 0
+        }
     }
 
     private fun setAliveAt(next: ByteArray, j: Int, i: Int) {
-        next[j * width + i] = 1
+        val pos = j * width + i
+        if (pos >= 0 && pos < size - 1)
+            next[pos] = 1
     }
 
     protected fun isAlive(x: Int, y: Int, d: ByteArray): Int {
@@ -48,8 +53,8 @@ class ConwayGame(val width : Int, val height : Int) {
             for (j in y - 1..y + 1) {
                 val pos = j * width + i
                 if (pos >= 0 && pos < size - 1 && pos != pos1) {
-                    val b : Byte = 1
-                    if (d[pos] == b) {
+                    val alive : Byte = 1
+                    if (d[pos] == alive) {
                         count++
                     }
                 }
@@ -57,8 +62,8 @@ class ConwayGame(val width : Int, val height : Int) {
         }
 
         //dead
-        val b : Byte = 0
-        if (d[pos1] == b) {
+        val dead : Byte = 0
+        if (d[pos1] == dead) {
             if (count == 3) { //becomes alive.
                return 1
             } else return 0
@@ -87,28 +92,12 @@ class PrintableData(val width: Int, val height: Int, val data: ByteArray) : Grid
 
     override fun contentAt(x: Int, y: Int): String {
         val pos = y * width + x
-        val b : Byte = 1
-        if (data[pos] == b) {
+        val alive : Byte = 1
+        if (data[pos] == alive) {
             return "*"
         } else {
             return "."
         }
-    }
-
-}
-
-class PrintableCells(val cells: Array<IntArray>) : Grid {
-    override fun width(): Int {
-        return cells[0].size
-    }
-
-    override fun height(): Int {
-        return cells.size
-
-    }
-
-    override fun contentAt(x: Int, y: Int): String {
-        return if (cells[y][x] == 1) "*" else "."
     }
 
 }

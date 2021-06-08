@@ -40,4 +40,16 @@ class ConwayGameTest {
         Approvals.verify(GridPrinter.print(game.data()))
     }
 
+    @Test
+    fun all_alive() {
+        val game = ConwayGame(4, 3)
+        for (i in 0..4) {
+            for (j in 0..3) {
+                game.setAliveAt(i, j)
+            }
+        }
+        game.iterate()
+        Approvals.verify(GridPrinter.print(game.data()))
+    }
+
 }

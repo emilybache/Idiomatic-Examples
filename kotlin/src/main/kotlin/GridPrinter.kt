@@ -1,3 +1,4 @@
+import java.util.stream.Collectors
 import kotlin.math.max
 
 
@@ -27,7 +28,10 @@ class GridPrinter {
                 }
                 allContent.add(rowContents)
             }
-            return allContent.map { it.joinToString(" ") }.joinToString("\n")
+            return allContent
+                .stream()
+                .map{row -> row.stream().collect(Collectors.joining(" "))}
+                .collect(Collectors.joining("\n"))
         }
     }
 }
