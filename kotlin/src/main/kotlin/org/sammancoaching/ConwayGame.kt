@@ -1,3 +1,5 @@
+package org.sammancoaching
+
 class ConwayGame(val width : Int, val height : Int) {
 
     private val size = width * height

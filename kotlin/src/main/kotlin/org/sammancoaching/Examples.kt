@@ -1,4 +1,4 @@
-import java.util.stream.Collectors
+package org.sammancoaching
 
 class Examples {
 

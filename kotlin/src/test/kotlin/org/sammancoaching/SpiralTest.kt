@@ -1,3 +1,5 @@
+package org.sammancoaching
+
 import org.approvaltests.Approvals
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

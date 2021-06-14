@@ -1,3 +1,5 @@
+package org.sammancoaching
+
 import kotlin.math.max
 
 
