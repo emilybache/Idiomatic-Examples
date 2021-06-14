@@ -1,22 +1,32 @@
+package org.sammancoaching
+
 import org.approvaltests.Approvals
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class ConwayGameTest {
 
+    val story = GameOfLifeStory()
+
     @Test
     fun empty() {
         val game = ConwayGame(3, 3)
+        story.arrange(game)
         game.iterate()
-        Approvals.verify(GridPrinter.print(game.data()))
+        story.act("Iterate")
+
+        Approvals.verify(story)
     }
 
     @Test
     fun one_death() {
         val game = ConwayGame(3, 3)
         game.setAliveAt(1, 1)
+        story.arrange(game)
+
         game.iterate()
-        Approvals.verify(GridPrinter.print(game.data()))
+        story.act("Iterate")
+
+        Approvals.verify(story)
     }
 
     @Test
@@ -26,18 +36,25 @@ class ConwayGameTest {
         game.setAliveAt(1, 2)
         game.setAliveAt(2, 1)
         game.setAliveAt(2, 2)
+        story.arrange(game)
         game.iterate()
-        Approvals.verify(GridPrinter.print(game.data()))
+        story.act("Iterate")
+
+        Approvals.verify(story)
     }
 
     @Test
     fun blinker() {
-        val game = ConwayGame(5, 5)
+        val game = ConwayGame(4, 4)
         game.setAliveAt(1, 1)
         game.setAliveAt(1, 2)
         game.setAliveAt(1, 3)
+        story.arrange(game)
         game.iterate()
-        Approvals.verify(GridPrinter.print(game.data()))
+        story.act("Iterate")
+        game.iterate()
+        story.act("Iterate")
+        Approvals.verify(story)
     }
 
     @Test
@@ -48,8 +65,11 @@ class ConwayGameTest {
                 game.setAliveAt(i, j)
             }
         }
+        story.arrange(game)
         game.iterate()
-        Approvals.verify(GridPrinter.print(game.data()))
+        story.act("Iterate")
+
+        Approvals.verify(story)
     }
 
 }

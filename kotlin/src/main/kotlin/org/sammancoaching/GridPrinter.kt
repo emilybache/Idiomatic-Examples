@@ -1,3 +1,5 @@
+package org.sammancoaching
+
 import java.util.stream.Collectors
 import kotlin.math.max
 

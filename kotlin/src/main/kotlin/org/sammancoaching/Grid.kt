@@ -1,4 +1,4 @@
-
+package org.sammancoaching
 interface Grid {
     fun width(): Int
     fun height(): Int
